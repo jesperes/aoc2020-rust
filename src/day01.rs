@@ -1,6 +1,14 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
+pub struct Day01 {}
+
+impl crate::puzzle::Puzzle for Day01 {
+    fn parse_input(&self) -> Result<i32, &'static str> {
+        Ok(42)
+    }
+}
+
 pub fn expected() -> (i32, i32) {
     (987339, 259521570)
 }
