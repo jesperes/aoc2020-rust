@@ -1,49 +1,57 @@
+use crate::puzzle::{Info, Puzzle};
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
 pub struct Day01 {}
 
-impl crate::puzzle::Puzzle for Day01 {
-    fn parse_input(&self) -> Result<i32, &'static str> {
-        Ok(42)
+impl Puzzle for Day01 {
+    type InputType = Vec<i32>;
+    type T1 = i32;
+    type T2 = i32;
+
+    fn info(&self) -> Info {
+        return Info {
+            name: "Report Repair",
+            year: 2020,
+            day: 1,
+        };
     }
-}
-
-pub fn expected() -> (i32, i32) {
-    (987339, 259521570)
-}
-
-pub fn parse_input() -> Result<Vec<i32>, std::io::Error> {
-    Ok(BufReader::new(File::open("inputs/2020/input01.txt")?)
-        .lines()
-        .map(|line| line.unwrap().parse::<i32>().unwrap())
-        .collect())
-}
-
-pub fn part1(input: &Vec<i32>) -> Result<i32, &'static str> {
-    for &x in input.iter() {
-        for &y in input.iter() {
-            if x + y == 2020 {
-                return Ok(x * y);
-            }
-        }
+    fn parse_input(&self) -> Self::InputType {
+        BufReader::new(File::open("inputs/2020/input01.txt").unwrap())
+            .lines()
+            .map(|line| line.unwrap().parse::<i32>().unwrap())
+            .collect()
     }
-    return Err("no result found");
-}
 
-pub fn part2(input: &Vec<i32>) -> Result<i32, &'static str> {
-    let smallest = input.iter().min().unwrap();
-    for &x in input.iter() {
-        for &y in input.iter() {
-            if x == y || x + y + smallest >= 2020 {
-                continue;
-            }
-            for &z in input.iter() {
-                if x + y + z == 2020 {
-                    return Ok(x * y * z);
+    fn part1(&self, input: &Self::InputType) -> Self::T1 {
+        for &x in input.iter() {
+            for &y in input.iter() {
+                if x + y == 2020 {
+                    return x * y;
                 }
             }
         }
+        panic!()
     }
-    return Err("no result found");
+
+    fn part2(&self, input: &Self::InputType) -> Self::T2 {
+        let smallest = input.iter().min().unwrap();
+        for &x in input.iter() {
+            for &y in input.iter() {
+                if x == y || x + y + smallest >= 2020 {
+                    continue;
+                }
+                for &z in input.iter() {
+                    if x + y + z == 2020 {
+                        return x * y * z;
+                    }
+                }
+            }
+        }
+        panic!();
+    }
+
+    fn expected(&self) -> (Self::T1, Self::T2) {
+        (987339, 259521570)
+    }
 }
