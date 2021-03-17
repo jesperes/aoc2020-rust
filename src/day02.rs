@@ -1,5 +1,4 @@
 use crate::puzzle::{Info, Puzzle};
-use regex::Regex;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::str::FromStr;
@@ -18,12 +17,12 @@ impl FromStr for Password {
     type Err = std::num::ParseIntError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let elems: Vec<&str> = Regex::new(r"[ \-:]+").unwrap().split(s).collect();
+        let elems: Vec<&str> = s.split(&[' ', '-', ':'][..]).collect();
         Ok(Password {
             a: elems[0].parse::<i32>()?,
             b: elems[1].parse::<i32>()?,
             c: elems[2].chars().next().unwrap(),
-            pwd: elems[3].chars().collect(),
+            pwd: elems[4].chars().collect(),
         })
     }
 }
@@ -68,7 +67,6 @@ fn is_valid1(p: &Password) -> bool {
 fn is_valid2(p: &Password) -> bool {
     let c1 = p.pwd[(p.a - 1) as usize];
     let c2 = p.pwd[(p.b - 1) as usize];
-
     let mut either: i32 = 0;
     if c1 == p.c {
         either += 1;
