@@ -46,12 +46,12 @@ impl Passport {
             .all(|(f, v)| Passport::is_valid_field(f, v))
     }
 
-    fn is_valid_year(year: &String, lower: i16, upper: i16) -> bool {
+    fn is_valid_year(year: &str, lower: i16, upper: i16) -> bool {
         let y = year.parse::<i16>().unwrap_or(0);
         y >= lower && y <= upper
     }
 
-    fn is_valid_hcl(hcl: &String) -> bool {
+    fn is_valid_hcl(hcl: &str) -> bool {
         lazy_static! {
             static ref HCL_RE: Regex = Regex::new("^#[0-9a-f]{6}$").unwrap();
         }
@@ -59,7 +59,7 @@ impl Passport {
         HCL_RE.is_match(hcl)
     }
 
-    fn is_valid_pid(pid: &String) -> bool {
+    fn is_valid_pid(pid: &str) -> bool {
         lazy_static! {
             static ref PID_RE: Regex = Regex::new("^\\d{9}$").unwrap();
         }
@@ -67,24 +67,21 @@ impl Passport {
         PID_RE.is_match(pid)
     }
 
-    fn is_valid_hgt(hgt: &String) -> bool {
+    fn is_valid_hgt(hgt: &str) -> bool {
         let h = hgt[..hgt.len() - 2].parse::<i16>().unwrap_or(0);
         if hgt.ends_with("in") {
-            h >= 59 && h <= 76
+            (59..=76).contains(&h)
         } else if hgt.ends_with("cm") {
-            h >= 150 && h <= 193
+            (150..=193).contains(&h)
         } else {
             false
         }
     }
 
-    fn is_valid_ecl(ecl: &String) -> bool {
-        match Color::from_str(ecl) {
-            Ok(_) => true,
-            Err(_) => false,
-        }
+    fn is_valid_ecl(ecl: &str) -> bool {
+        Color::from_str(ecl).is_ok()
     }
-    fn is_valid_field(f: &Field, v: &String) -> bool {
+    fn is_valid_field(f: &Field, v: &str) -> bool {
         match f {
             Field::byr => Passport::is_valid_year(v, 1920, 2002),
             Field::iyr => Passport::is_valid_year(v, 2010, 2020),
@@ -106,7 +103,7 @@ impl FromStr for Passport {
             fields: s
                 .trim()
                 .replace("\n", " ")
-                .split(" ")
+                .split(' ')
                 .map(|s| {
                     (
                         Field::from_str(&s[..3]).unwrap_or(Field::invalid),
@@ -125,11 +122,11 @@ impl Puzzle for Day04 {
     type T2 = usize;
 
     fn info(&self) -> Info {
-        return Info {
+        Info {
             name: "Passport Processing",
             year: 2020,
             day: 4,
-        };
+        }
     }
     fn parse_input(&self) -> Self::InputType {
         std::fs::read_to_string("inputs/2020/input04.txt")
@@ -160,6 +157,6 @@ impl Puzzle for Day04 {
     }
 
     fn expected(&self) -> (Self::T1, Self::T2) {
-        return (200, 116);
+        (200, 116)
     }
 }

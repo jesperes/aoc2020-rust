@@ -33,11 +33,11 @@ impl Puzzle for Day02 {
     type T2 = usize;
 
     fn info(&self) -> Info {
-        return Info {
+        Info {
             name: "Password Philosophy",
             year: 2020,
             day: 2,
-        };
+        }
     }
     fn parse_input(&self) -> Self::InputType {
         BufReader::new(File::open("inputs/2020/input02.txt").unwrap())
@@ -61,7 +61,7 @@ impl Puzzle for Day02 {
 
 fn is_valid1(p: &Password) -> bool {
     let count = p.pwd.iter().filter(|c| **c == p.c).count() as i32;
-    return count >= p.a && count <= p.b;
+    count >= p.a && count <= p.b
 }
 
 fn is_valid2(p: &Password) -> bool {
@@ -75,5 +75,5 @@ fn is_valid2(p: &Password) -> bool {
         either += 1;
     }
 
-    return either == 1;
+    either == 1
 }

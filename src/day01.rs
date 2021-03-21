@@ -10,11 +10,11 @@ impl Puzzle for Day01 {
     type T2 = i32;
 
     fn info(&self) -> Info {
-        return Info {
+        Info {
             name: "Report Repair",
             year: 2020,
             day: 1,
-        };
+        }
     }
     fn parse_input(&self) -> Self::InputType {
         BufReader::new(File::open("inputs/2020/input01.txt").unwrap())

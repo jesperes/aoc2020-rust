@@ -12,7 +12,7 @@ impl Day05 {
             match c {
                 'B' => id = (id << 1) | 1,
                 'R' => id = (id << 1) | 1,
-                _ => id = id << 1,
+                _ => id <<= 1,
             }
         }
         id
@@ -25,11 +25,11 @@ impl Puzzle for Day05 {
     type T2 = i32;
 
     fn info(&self) -> Info {
-        return Info {
+        Info {
             name: "Binary Boarding",
             year: 2020,
             day: 5,
-        };
+        }
     }
     fn parse_input(&self) -> Self::InputType {
         BufReader::new(File::open("inputs/2020/input05.txt").unwrap())

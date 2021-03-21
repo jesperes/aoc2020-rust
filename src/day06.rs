@@ -6,10 +6,10 @@ fn str_to_bits(s: &str) -> u32 {
     let mut bits: u32 = 0;
     for c in s.chars() {
         let n = (c as i32) - ('a' as i32);
-        assert!(n >= 0 && n <= 26);
+        assert!((0..=26).contains(&n));
         bits |= 1 << n;
     }
-    return bits;
+    bits
 }
 
 impl Puzzle for Day06 {
@@ -18,18 +18,18 @@ impl Puzzle for Day06 {
     type T2 = u32;
 
     fn info(&self) -> Info {
-        return Info {
+        Info {
             name: "Custom Customs",
             year: 2020,
             day: 6,
-        };
+        }
     }
     fn parse_input(&self) -> Self::InputType {
         std::fs::read_to_string("inputs/2020/input06.txt")
             .unwrap()
             .trim()
             .split("\n\n")
-            .map(|s| s.split("\n").map(|s0| str_to_bits(s0)).collect())
+            .map(|s| s.split('\n').map(|s0| str_to_bits(s0)).collect())
             .collect()
     }
 

@@ -8,7 +8,7 @@ pub struct Day07 {}
 
 #[derive(Debug)]
 pub struct Bag {
-    bag: String,
+    color: String,
     contents: Vec<(i32, String)>,
 }
 
@@ -26,7 +26,7 @@ impl FromStr for Bag {
 
         let m = LINE_RE.captures(s).unwrap();
         Ok(Bag {
-            bag: m.name("bag").unwrap().as_str().to_string(),
+            color: m.name("bag").unwrap().as_str().to_string(),
             contents: CONTENT_RE
                 .captures_iter(m.name("contents").unwrap().as_str())
                 .map(|cap| {
@@ -61,10 +61,7 @@ impl Puzzle for Day07 {
         .collect()
     }
 
-    fn part1(&self, input: &Self::InputType) -> Self::T1 {
-        for bag in input {
-            println!("{:?}", bag);
-        }
+    fn part1(&self, _input: &Self::InputType) -> Self::T1 {
         0
     }
 

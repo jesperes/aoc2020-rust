@@ -20,11 +20,11 @@ impl Puzzle for Day03 {
     type T2 = i64;
 
     fn info(&self) -> Info {
-        return Info {
+        Info {
             name: "Toboggan Trajectory",
             year: 2020,
             day: 3,
-        };
+        }
     }
     fn parse_input(&self) -> Self::InputType {
         BufReader::new(File::open("inputs/2020/input03.txt").unwrap())
@@ -46,7 +46,7 @@ impl Puzzle for Day03 {
             p.x += dx;
             p.y += 1;
         }
-        return count;
+        count
     }
 
     fn part2(&self, input: &Self::InputType) -> Self::T2 {
@@ -71,7 +71,7 @@ impl Puzzle for Day03 {
             }
             prod *= count;
         }
-        return prod;
+        prod
     }
 
     fn expected(&self) -> (Self::T1, Self::T2) {
