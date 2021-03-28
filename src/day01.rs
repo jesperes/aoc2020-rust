@@ -24,8 +24,8 @@ impl Puzzle for Day01 {
     }
 
     fn part1(&self, input: &Self::InputType) -> Self::T1 {
-        for &x in input.iter() {
-            for &y in input.iter() {
+        for &x in input {
+            for &y in input {
                 if x + y == 2020 {
                     return x * y;
                 }
@@ -36,12 +36,12 @@ impl Puzzle for Day01 {
 
     fn part2(&self, input: &Self::InputType) -> Self::T2 {
         let smallest = input.iter().min().unwrap();
-        for &x in input.iter() {
-            for &y in input.iter() {
+        for &x in input {
+            for &y in input {
                 if x == y || x + y + smallest >= 2020 {
                     continue;
                 }
-                for &z in input.iter() {
+                for &z in input {
                     if x + y + z == 2020 {
                         return x * y * z;
                     }

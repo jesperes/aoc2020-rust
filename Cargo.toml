@@ -6,6 +6,10 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[profile.dev]
+debug = true
+opt-level = 0
+
 [dependencies]
 strum = "0.20"
 strum_macros = "0.20"

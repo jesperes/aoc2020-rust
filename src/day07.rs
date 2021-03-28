@@ -70,6 +70,7 @@ impl Puzzle for Day07 {
     }
 
     fn expected(&self) -> (Self::T1, Self::T2) {
+        // (335, 5312)
         (0, 0)
     }
 }

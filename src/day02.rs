@@ -67,13 +67,5 @@ fn is_valid1(p: &Password) -> bool {
 fn is_valid2(p: &Password) -> bool {
     let c1 = p.pwd[(p.a - 1) as usize];
     let c2 = p.pwd[(p.b - 1) as usize];
-    let mut either: i32 = 0;
-    if c1 == p.c {
-        either += 1;
-    }
-    if c2 == p.c {
-        either += 1;
-    }
-
-    either == 1
+    (c1 == p.c || c2 == p.c) && !(c1 == p.c && c2 == p.c)
 }
