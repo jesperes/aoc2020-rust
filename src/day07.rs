@@ -1,5 +1,8 @@
 use crate::puzzle::{Info, Puzzle};
+use multimap::MultiMap;
 use regex::Regex;
+use std::collections::HashMap;
+use std::collections::HashSet;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::str::FromStr;
@@ -41,8 +44,8 @@ impl FromStr for Bag {
 
 impl Puzzle for Day07 {
     type InputType = Vec<Bag>;
-    type T1 = i32;
-    type T2 = i32;
+    type T1 = usize;
+    type T2 = usize;
 
     fn info(&self) -> Info {
         Info {
@@ -61,16 +64,52 @@ impl Puzzle for Day07 {
         .collect()
     }
 
-    fn part1(&self, _input: &Self::InputType) -> Self::T1 {
-        0
+    fn part1(&self, input: &Self::InputType) -> Self::T1 {
+        let mut map = MultiMap::<&String, &String>::new();
+        for bag in input {
+            for (_, contained_bag) in &bag.contents {
+                map.insert(contained_bag, &bag.color);
+            }
+        }
+
+        find_bags("shiny gold", &map)
     }
 
-    fn part2(&self, _input: &Self::InputType) -> Self::T2 {
-        0
+    fn part2(&self, input: &Self::InputType) -> Self::T2 {
+        let mut map = HashMap::new();
+        for bag in input {
+            map.insert(&bag.color, &bag.contents);
+        }
+
+        count_bags("shiny gold", &map)
     }
 
     fn expected(&self) -> (Self::T1, Self::T2) {
-        // (335, 5312)
-        (0, 0)
+        (355, 5312)
     }
+}
+
+fn find_bags(color: &str, map: &MultiMap<&String, &String>) -> usize {
+    let mut set = HashSet::new();
+    find_bags_rec(color, &map, &mut set);
+    set.len()
+}
+
+fn find_bags_rec(color: &str, map: &MultiMap<&String, &String>, set: &mut HashSet<String>) {
+    if let Some(colors) = map.get_vec(&color.to_string()) {
+        for sub in colors {
+            set.insert(sub.to_string());
+            find_bags_rec(sub, map, set);
+        }
+    }
+}
+
+fn count_bags(color: &str, map: &HashMap<&String, &Vec<(i32, String)>>) -> usize {
+    let mut count = 0;
+    if let Some(bags) = map.get(&color.to_string()) {
+        for (num, childcol) in bags.iter() {
+            count += *num as usize * (1 + count_bags(childcol, map));
+        }
+    }
+    count
 }
