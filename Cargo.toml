@@ -10,6 +10,9 @@ edition = "2018"
 debug = true
 opt-level = 0
 
+[profile.release]
+debug = true
+
 [dependencies]
 strum = "0.20"
 strum_macros = "0.20"
