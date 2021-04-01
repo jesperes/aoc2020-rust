@@ -43,8 +43,9 @@ pub fn run_puzzle<T: Puzzle>(p: &T) {
     let elapsed = now.elapsed().as_nanos();
     let elapsed_usecs = elapsed as f64 / 1_000.0;
 
+    let (e1, e2) = p.expected();
     println!(
-        "{} day {}: {} ({} \u{03BC}s)",
-        info.year, info.day, info.name, elapsed_usecs
+        "{} day {}: {} ({:?}/{:?}) ({} \u{03BC}s)",
+        info.year, info.day, info.name, e1, e2, elapsed_usecs
     );
 }
