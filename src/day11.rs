@@ -76,7 +76,7 @@ fn do_round(read_grid: &[Vec<char>], write_grid: &mut [Vec<char>]) -> Option<i32
 
     for y in 0..height {
         for x in 0..width {
-            let adj = number_occupied_adjacents(x as i32, y as i32, width, height, &read_grid);
+            let adj = number_occupied_adjacents(x as i32, y as i32, &read_grid);
             let c = read_grid[y][x];
             let next_c = match c {
                 'L' if adj == 0 => '#',
@@ -107,7 +107,7 @@ fn do_round2(read_grid: &[Vec<char>], write_grid: &mut [Vec<char>]) -> Option<i3
 
     for y in 0..height {
         for x in 0..width {
-            let adj = number_occupied_adjacents2(x as i32, y as i32, width, height, &read_grid);
+            let adj = number_occupied_adjacents2(x as i32, y as i32, &read_grid);
             let c = read_grid[y][x];
             let next_c = match c {
                 'L' if adj == 0 => '#',
@@ -130,22 +130,16 @@ fn do_round2(read_grid: &[Vec<char>], write_grid: &mut [Vec<char>]) -> Option<i3
     }
 }
 
-/// Check if (x, y) coordinates are valid, returning Some(x, y) or None.
-fn valid_idx(x: i32, y: i32, width: usize, height: usize) -> Option<(usize, usize)> {
-    if y >= 0 && y < height as i32 && x >= 0 && x < width as i32 {
-        Some((x as usize, y as usize))
+#[inline]
+fn read_grid(grid: &[Vec<char>], x: i32, y: i32) -> Option<&char> {
+    if let Some(row) = grid.get(y as usize) {
+        row.get(x as usize)
     } else {
         None
     }
 }
 
-fn number_occupied_adjacents(
-    x: i32,
-    y: i32,
-    width: usize,
-    height: usize,
-    grid: &[Vec<char>],
-) -> i32 {
+fn number_occupied_adjacents(x: i32, y: i32, grid: &[Vec<char>]) -> i32 {
     let mut count = 0;
     lazy_static! {
         static ref DELTAS: Vec<(i32, i32)> = vec![
@@ -160,9 +154,8 @@ fn number_occupied_adjacents(
         ];
     }
     for (dx, dy) in DELTAS.iter() {
-        if let Some((xi, yi)) = valid_idx(x + dx, y + dy, width, height) {
-            let c = grid[yi][xi];
-            if c == '#' {
+        if let Some(c) = read_grid(grid, x + dx, y + dy) {
+            if *c == '#' {
                 count += 1;
             }
         }
@@ -170,13 +163,7 @@ fn number_occupied_adjacents(
     count
 }
 
-fn number_occupied_adjacents2(
-    x: i32,
-    y: i32,
-    width: usize,
-    height: usize,
-    grid: &[Vec<char>],
-) -> i32 {
+fn number_occupied_adjacents2(x: i32, y: i32, grid: &[Vec<char>]) -> i32 {
     let mut count = 0;
     lazy_static! {
         static ref DELTAS: Vec<(i32, i32)> = vec![
@@ -192,22 +179,15 @@ fn number_occupied_adjacents2(
     }
     for (dx, dy) in DELTAS.iter() {
         let mut dist = 1;
-        loop {
-            let (ddx, ddy) = (x + dx * dist, y + dy * dist);
-
-            if let Some((xi, yi)) = valid_idx(ddx, ddy, width, height) {
-                match grid[yi][xi] {
-                    '#' => {
-                        count += 1;
-                        break;
-                    }
-                    'L' => break,
-                    '.' => dist += 1,
-                    _ => break,
+        while let Some(c) = read_grid(grid, x + dx * dist, y + dy * dist) {
+            match c {
+                '#' => {
+                    count += 1;
+                    break;
                 }
-            } else {
-                // invalid coordinate, we are outside the grid
-                break;
+                'L' => break,
+                '.' => dist += 1,
+                _ => break,
             }
         }
     }

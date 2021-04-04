@@ -14,12 +14,16 @@ mod day08;
 mod day09;
 mod day10;
 mod day11;
+mod day12;
 
 mod puzzle;
 mod template; // just to have cargo compile the template
 
 fn main() {
-    let limit_ms = 50;
+    // In the spirit of solving all the solutions in Rust in less than a second...
+    // https://www.reddit.com/r/adventofcode/comments/lttus6/2020_rust_solving_advent_of_code_2020_in_under_a/
+    // https://timvisee.com/blog/solving-aoc-2020-in-under-a-second/
+    let limit_ms = 1000;
     let limit_ns = std::time::Duration::from_millis(limit_ms).as_nanos();
     println!(
         "Total limit: {} ms ({} \u{03BC}s/puzzle)",
@@ -39,6 +43,7 @@ fn main() {
     puzzle::run_puzzle(&day09::Day09 {});
     puzzle::run_puzzle(&day10::Day10 {});
     puzzle::run_puzzle(&day11::Day11 {});
+    puzzle::run_puzzle(&day12::Day12 {});
     let elapsed_ns = now.elapsed().as_nanos();
     let exceeded_limit = elapsed_ns >= limit_ns;
     let elapsed_fmt = format!("{:.3} ms", elapsed_ns as f64 / 1_000_000.0);

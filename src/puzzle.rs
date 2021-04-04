@@ -47,7 +47,7 @@ pub fn run_puzzle<T: Puzzle>(p: &T) {
 
     let (e1, e2) = p.expected();
 
-    let limit_ms = 50;
+    let limit_ms = 1000;
     let limit_per_puzzle_ms = limit_ms as f64 / 25.0;
     let exceeded_limit = elapsed_ms > limit_per_puzzle_ms;
 
