@@ -32,6 +32,13 @@ pub trait Puzzle {
     fn info(&self) -> Info;
 }
 
+// In the spirit of solving all the solutions in Rust in less than a second...
+// https://www.reddit.com/r/adventofcode/comments/lttus6/2020_rust_solving_advent_of_code_2020_in_under_a/
+// https://timvisee.com/blog/solving-aoc-2020-in-under-a-second/
+pub fn limit_ms() -> u64 {
+    500 // aim for 0.5s...
+}
+
 pub fn run_puzzle<T: Puzzle>(p: &T) {
     let now = std::time::Instant::now();
     let info = p.info();
@@ -47,8 +54,7 @@ pub fn run_puzzle<T: Puzzle>(p: &T) {
 
     let (e1, e2) = p.expected();
 
-    let limit_ms = 1000;
-    let limit_per_puzzle_ms = limit_ms as f64 / 25.0;
+    let limit_per_puzzle_ms = limit_ms() as f64 / 25.0;
     let exceeded_limit = elapsed_ms > limit_per_puzzle_ms;
 
     let elapsed_fmt = format!("{} \u{03BC}s", elapsed_usecs);
