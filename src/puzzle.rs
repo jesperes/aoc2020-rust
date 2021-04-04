@@ -1,3 +1,4 @@
+use colored::*;
 use std::cmp::Eq;
 use std::fmt::Debug;
 
@@ -42,10 +43,26 @@ pub fn run_puzzle<T: Puzzle>(p: &T) {
 
     let elapsed = now.elapsed().as_nanos();
     let elapsed_usecs = elapsed as f64 / 1_000.0;
+    let elapsed_ms = elapsed as f64 / 1_000_000.0;
 
     let (e1, e2) = p.expected();
+
+    let limit_ms = 50;
+    let limit_per_puzzle_ms = limit_ms as f64 / 25.0;
+    let exceeded_limit = elapsed_ms > limit_per_puzzle_ms;
+
+    let elapsed_fmt = format!("{} \u{03BC}s", elapsed_usecs);
+
     println!(
-        "{} day {}: {} ({:?}/{:?}) ({} \u{03BC}s)",
-        info.year, info.day, info.name, e1, e2, elapsed_usecs
+        "Day {:2} {:30} {:<15?} {:<15?} {:>20}",
+        info.day,
+        info.name.blue().bold(),
+        e1,
+        e2,
+        if exceeded_limit {
+            elapsed_fmt.red().bold()
+        } else {
+            elapsed_fmt.green().bold()
+        }
     );
 }

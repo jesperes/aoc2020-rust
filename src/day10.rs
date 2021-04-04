@@ -51,7 +51,7 @@ impl Puzzle for Day10 {
         for adapter in input.iter().chain([input.iter().max().unwrap() + 3].iter()) {
             cache.insert(
                 *adapter,
-                (adapter - 3..*adapter)
+                (adapter - 3..*adapter) // sum the three previous ones
                     .map(|a| cache.get(&a).unwrap_or(&0))
                     .sum(),
             );

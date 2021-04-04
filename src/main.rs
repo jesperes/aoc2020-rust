@@ -1,5 +1,7 @@
 #[macro_use]
 extern crate lazy_static;
+extern crate colored;
+use colored::*;
 
 mod day01;
 mod day02;
@@ -11,11 +13,20 @@ mod day07;
 mod day08;
 mod day09;
 mod day10;
+mod day11;
 
 mod puzzle;
 mod template; // just to have cargo compile the template
 
 fn main() {
+    let limit_ms = 50;
+    let limit_ns = std::time::Duration::from_millis(limit_ms).as_nanos();
+    println!(
+        "Total limit: {} ms ({} \u{03BC}s/puzzle)",
+        limit_ms,
+        (limit_ns as f64 / (25.0 * 1000.0)) as i64
+    );
+
     let now = std::time::Instant::now();
     puzzle::run_puzzle(&day01::Day01 {});
     puzzle::run_puzzle(&day02::Day02 {});
@@ -27,8 +38,16 @@ fn main() {
     puzzle::run_puzzle(&day08::Day08 {});
     puzzle::run_puzzle(&day09::Day09 {});
     puzzle::run_puzzle(&day10::Day10 {});
+    puzzle::run_puzzle(&day11::Day11 {});
+    let elapsed_ns = now.elapsed().as_nanos();
+    let exceeded_limit = elapsed_ns >= limit_ns;
+    let elapsed_fmt = format!("{:.3} ms", elapsed_ns as f64 / 1_000_000.0);
     println!(
-        "Total time: {} s",
-        now.elapsed().as_nanos() as f64 / 1_000_000_000.0
+        "Total time: {}",
+        if exceeded_limit {
+            elapsed_fmt.red().bold()
+        } else {
+            elapsed_fmt.green().bold()
+        }
     );
 }
