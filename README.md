@@ -1,4 +1,4 @@
-![Rust](https://github.com/github/docs/actions/workflows/rust.yml/badge.svg)
+![Rust](https://github.com/jesperes/aoc2020-rust/actions/workflows/rust.yml/badge.svg)
 
 # aoc2020-rust
 
