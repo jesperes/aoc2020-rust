@@ -17,6 +17,7 @@ mod day11;
 mod day12;
 mod day13;
 mod day14;
+mod day15;
 
 mod puzzle;
 mod template; // just to have cargo compile the template
@@ -45,6 +46,7 @@ fn main() {
     puzzle::run_puzzle(&day12::Day12 {});
     puzzle::run_puzzle(&day13::Day13 {});
     puzzle::run_puzzle(&day14::Day14 {});
+    puzzle::run_puzzle(&day15::Day15 {});
 
     //
     let elapsed_ns = now.elapsed().as_nanos();
