@@ -16,6 +16,7 @@ mod day10;
 mod day11;
 mod day12;
 mod day13;
+mod day14;
 
 mod puzzle;
 mod template; // just to have cargo compile the template
@@ -29,6 +30,7 @@ fn main() {
     );
 
     let now = std::time::Instant::now();
+
     puzzle::run_puzzle(&day01::Day01 {});
     puzzle::run_puzzle(&day02::Day02 {});
     puzzle::run_puzzle(&day03::Day03 {});
@@ -42,6 +44,9 @@ fn main() {
     puzzle::run_puzzle(&day11::Day11 {});
     puzzle::run_puzzle(&day12::Day12 {});
     puzzle::run_puzzle(&day13::Day13 {});
+    puzzle::run_puzzle(&day14::Day14 {});
+
+    //
     let elapsed_ns = now.elapsed().as_nanos();
     let exceeded_limit = elapsed_ns >= limit_ns;
     let elapsed_fmt = format!("{:.3} ms", elapsed_ns as f64 / 1_000_000.0);
