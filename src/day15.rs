@@ -18,11 +18,11 @@ impl Puzzle for Day15 {
     }
 
     fn part1(&self, input: &Self::InputType) -> Self::T1 {
-        solve::<2020>(&input)
+        solve(&input, 2020)
     }
 
     fn part2(&self, input: &Self::InputType) -> Self::T2 {
-        solve::<30000000>(&input)
+        solve(&input, 30_000_000)
     }
 
     fn expected(&self) -> (Self::T1, Self::T2) {
@@ -30,18 +30,21 @@ impl Puzzle for Day15 {
     }
 }
 
-fn solve<const LIMIT: usize>(input: &[usize]) -> usize {
+/// This is the Van Eck Sequence: https://www.numberphile.com/videos/van-eck-sequence.
+/// There is no known way to compute the nth number without computing the entire
+/// sequence up to n. Some optimizations are possible (e.g.
+/// https://github.com/timvisee/advent-of-code-2020/blob/master/day15b/src/main.rs)
+/// but nothing radical.
+fn solve(input: &[usize], limit: usize) -> usize {
     let mut input0 = input.to_vec();
     let mut last = input0.pop().unwrap();
-    let mut array = vec![0; LIMIT];
+    let mut array = vec![0; limit];
 
     for turn in 1..=input0.len() {
         array[input0[turn - 1]] = turn;
     }
 
-    // TODO optimize this inner loop.
-    let mut turn = input.len() + 1;
-    while turn <= LIMIT {
+    for turn in input.len() + 1..=limit {
         let index_of_last = array[last];
         let next = if index_of_last == 0 {
             0
@@ -49,7 +52,6 @@ fn solve<const LIMIT: usize>(input: &[usize]) -> usize {
             turn - index_of_last - 1
         };
         array[last] = turn - 1;
-        turn += 1;
         last = next;
     }
 
