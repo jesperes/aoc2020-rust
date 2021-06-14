@@ -1,4 +1,5 @@
 use crate::puzzle::{Info, Puzzle};
+use std::collections::{hash_map::Entry, HashMap};
 pub struct Day15 {}
 
 impl Puzzle for Day15 {
@@ -18,11 +19,11 @@ impl Puzzle for Day15 {
     }
 
     fn part1(&self, input: &Self::InputType) -> Self::T1 {
-        solve(&input, 2020)
+        solve(&input, 2020, 0.1)
     }
 
     fn part2(&self, input: &Self::InputType) -> Self::T2 {
-        solve(&input, 30_000_000)
+        solve(&input, 30_000_000, 0.1)
     }
 
     fn expected(&self) -> (Self::T1, Self::T2) {
@@ -35,24 +36,41 @@ impl Puzzle for Day15 {
 /// sequence up to n. Some optimizations are possible (e.g.
 /// https://github.com/timvisee/advent-of-code-2020/blob/master/day15b/src/main.rs)
 /// but nothing radical.
-fn solve(input: &[usize], limit: usize) -> usize {
+pub fn solve(input: &[usize], limit: usize, frac: f32) -> usize {
     let mut input0 = input.to_vec();
+    let boundary: usize = if limit > 1_000_000 {
+        (limit as f32 * frac) as usize
+    } else {
+        limit
+    };
+
     let mut last = input0.pop().unwrap();
-    let mut array = vec![0; limit];
+    let mut lower = vec![0; boundary];
+    let mut upper = HashMap::new();
 
     for turn in 1..=input0.len() {
-        array[input0[turn - 1]] = turn;
+        lower[input0[turn - 1]] = turn;
     }
 
-    for turn in input.len() + 1..=limit {
-        let index_of_last = array[last];
-        let next = if index_of_last == 0 {
-            0
+    for turn in input.len()..limit {
+        if last < boundary {
+            let index_of_last = lower[last];
+            let next = if index_of_last == 0 {
+                0
+            } else {
+                turn - index_of_last
+            };
+            lower[last] = turn;
+            last = next;
         } else {
-            turn - index_of_last - 1
-        };
-        array[last] = turn - 1;
-        last = next;
+            last = match upper.entry(last) {
+                Entry::Vacant(entry) => {
+                    entry.insert(turn);
+                    0
+                }
+                Entry::Occupied(mut entry) => turn - entry.insert(turn),
+            }
+        }
     }
 
     last

@@ -44,6 +44,7 @@ pub fn run_puzzle<T: Puzzle>(p: &T) {
     let info = p.info();
 
     let input = p.parse_input();
+    let elapsed_parser = now.elapsed().as_nanos();
     let r1 = p.part1(&input);
     let r2 = p.part2(&input);
     assert_eq!((r1, r2), p.expected());
@@ -58,9 +59,10 @@ pub fn run_puzzle<T: Puzzle>(p: &T) {
     let exceeded_limit = elapsed_ms > limit_per_puzzle_ms;
 
     let elapsed_fmt = format!("{} \u{03BC}s", elapsed_usecs);
+    let elapsed_parser_fmt = format!("{} \u{03BC}s", elapsed_parser as f64 / 1_000.0);
 
     println!(
-        "Day {:2} {:30} {:<15?} {:<15?} {:>20}",
+        "Day {:2} {:30} {:<15?} {:<15?} {:>20} {:>20} {:>10}",
         info.day,
         info.name.blue().bold(),
         e1,
@@ -69,6 +71,11 @@ pub fn run_puzzle<T: Puzzle>(p: &T) {
             elapsed_fmt.red().bold()
         } else {
             elapsed_fmt.green().bold()
-        }
+        },
+        elapsed_parser_fmt.yellow(),
+        format!(
+            "{}%",
+            ((elapsed_parser as f64 / elapsed as f64) * 100.0) as i32
+        )
     );
 }

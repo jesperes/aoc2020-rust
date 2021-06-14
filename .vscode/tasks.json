@@ -11,16 +11,20 @@
 			"label": "Rust: cargo build - aoc2020-rust"
 		},
 		{
-			"type": "cargo",
-			"subcommand": "run",
+			"type": "shell",
 			"problemMatcher": [
 				"$rustc"
 			],
 			"label": "Rust: cargo run - aoc2020-rust",
+			"command": "cargo",
+			"args": [
+				"run"
+				// "--release"
+			],
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			}
-		},
+		}
 	]
 }
