@@ -51,7 +51,7 @@ impl Puzzle for Day14 {
         for instr in input {
             match instr {
                 Instr::Mask(mask) => curr_mask = mask,
-                Instr::Mem(addr, value) => write_mem(*addr, *value, &curr_mask, &mut mem),
+                Instr::Mem(addr, value) => write_mem(*addr, *value, curr_mask, &mut mem),
             }
         }
         mem.values().sum()

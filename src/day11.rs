@@ -76,7 +76,7 @@ fn do_round(read_grid: &[Vec<char>], write_grid: &mut [Vec<char>]) -> Option<i32
 
     for y in 0..height {
         for x in 0..width {
-            let adj = number_occupied_adjacents(x as i32, y as i32, &read_grid);
+            let adj = number_occupied_adjacents(x as i32, y as i32, read_grid);
             let c = read_grid[y][x];
             let next_c = match c {
                 'L' if adj == 0 => '#',
@@ -107,7 +107,7 @@ fn do_round2(read_grid: &[Vec<char>], write_grid: &mut [Vec<char>]) -> Option<i3
 
     for y in 0..height {
         for x in 0..width {
-            let adj = number_occupied_adjacents2(x as i32, y as i32, &read_grid);
+            let adj = number_occupied_adjacents2(x as i32, y as i32, read_grid);
             let c = read_grid[y][x];
             let next_c = match c {
                 'L' if adj == 0 => '#',

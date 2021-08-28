@@ -19,11 +19,11 @@ impl Puzzle for Day15 {
     }
 
     fn part1(&self, input: &Self::InputType) -> Self::T1 {
-        solve(&input, 2020, 0.1)
+        solve(input, 2020, 0.1)
     }
 
     fn part2(&self, input: &Self::InputType) -> Self::T2 {
-        solve(&input, 30_000_000, 0.1)
+        solve(input, 30_000_000, 0.1)
     }
 
     fn expected(&self) -> (Self::T1, Self::T2) {
