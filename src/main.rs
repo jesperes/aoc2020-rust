@@ -1,6 +1,8 @@
 #[macro_use]
 extern crate lazy_static;
 extern crate colored;
+extern crate lalrpop_util;
+
 use colored::*;
 
 mod day01;
@@ -20,6 +22,7 @@ mod day14;
 mod day15;
 mod day16;
 mod day17;
+mod day18;
 
 mod puzzle;
 mod template; // just to have cargo compile the template
@@ -51,6 +54,7 @@ fn main() {
     puzzle::run_puzzle(&day15::Day15 {});
     puzzle::run_puzzle(&day16::Day16 {});
     puzzle::run_puzzle(&day17::Day17 {});
+    puzzle::run_puzzle(&day18::Day18 {});
 
     //
     let elapsed_ns = now.elapsed().as_nanos();

@@ -1,0 +1,23 @@
+use std::str::FromStr;
+
+// Day 18 part 1 grammar: no precedence rules, just evalulate from left to
+// right.
+
+grammar;
+
+pub Expr = {
+    <l:Expr> "+" <r:Term> => l + r,
+    <l:Expr> "-" <r:Term> => l - r,
+    <l:Expr> "*" <r:Term> => l * r,
+    <l:Expr> "/" <r:Term> => l / r,
+    Term
+}
+
+Term = {
+    Num,
+    "(" <Expr> ")",
+}
+
+Num : i64 = {
+    r"[0-9]+" => i64::from_str(<>).unwrap(),
+}

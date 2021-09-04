@@ -1,0 +1,27 @@
+use std::str::FromStr;
+
+// Grammer stolen from lalrpop tutorial, but precedence has flipped, so + and -
+// have higher precedence than * and /.
+
+grammar;
+
+pub Expr = {
+    <l:Expr> "*" <r:Factor> => l * r,
+    <l:Expr> "/" <r:Factor> => l / r,
+    Factor
+}
+
+Factor : i64 = {
+    <l:Factor> "+" <r:Term> => l + r,
+    <l:Factor> "-" <r:Term> => l - r,
+    Term
+}
+
+Term = {
+    Num,
+    "(" <Expr> ")",
+}
+
+Num : i64 = {
+    r"[0-9]+" => i64::from_str(<>).unwrap(),
+}
