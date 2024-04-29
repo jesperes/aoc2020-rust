@@ -23,6 +23,7 @@ mod day15;
 mod day16;
 mod day17;
 mod day18;
+mod day19;
 
 mod puzzle;
 mod template; // just to have cargo compile the template
@@ -38,23 +39,24 @@ fn main() {
     let now = std::time::Instant::now();
 
     puzzle::run_puzzle(&day01::Day01 {});
-    puzzle::run_puzzle(&day02::Day02 {});
-    puzzle::run_puzzle(&day03::Day03 {});
-    puzzle::run_puzzle(&day04::Day04 {});
-    puzzle::run_puzzle(&day05::Day05 {});
-    puzzle::run_puzzle(&day06::Day06 {});
-    puzzle::run_puzzle(&day07::Day07 {});
-    puzzle::run_puzzle(&day08::Day08 {});
-    puzzle::run_puzzle(&day09::Day09 {});
-    puzzle::run_puzzle(&day10::Day10 {});
-    puzzle::run_puzzle(&day11::Day11 {});
-    puzzle::run_puzzle(&day12::Day12 {});
-    puzzle::run_puzzle(&day13::Day13 {});
-    puzzle::run_puzzle(&day14::Day14 {});
-    puzzle::run_puzzle(&day15::Day15 {});
-    puzzle::run_puzzle(&day16::Day16 {});
-    puzzle::run_puzzle(&day17::Day17 {});
-    puzzle::run_puzzle(&day18::Day18 {});
+    // puzzle::run_puzzle(&day02::Day02 {});
+    // puzzle::run_puzzle(&day03::Day03 {});
+    // puzzle::run_puzzle(&day04::Day04 {});
+    // puzzle::run_puzzle(&day05::Day05 {});
+    // puzzle::run_puzzle(&day06::Day06 {});
+    // puzzle::run_puzzle(&day07::Day07 {});
+    // puzzle::run_puzzle(&day08::Day08 {});
+    // puzzle::run_puzzle(&day09::Day09 {});
+    // puzzle::run_puzzle(&day10::Day10 {});
+    // puzzle::run_puzzle(&day11::Day11 {});
+    // puzzle::run_puzzle(&day12::Day12 {});
+    // puzzle::run_puzzle(&day13::Day13 {});
+    // puzzle::run_puzzle(&day14::Day14 {});
+    // puzzle::run_puzzle(&day15::Day15 {});
+    // puzzle::run_puzzle(&day16::Day16 {});
+    // puzzle::run_puzzle(&day17::Day17 {});
+    // puzzle::run_puzzle(&day18::Day18 {});
+    // puzzle::run_puzzle(&day19::Day19 {});
 
     //
     let elapsed_ns = now.elapsed().as_nanos();
